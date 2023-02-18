@@ -1,0 +1,112 @@
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Quiz</title>
+    <meta name='description' content=''>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='styles.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+<body id="bodyTag">
+<h3 class="display-4 d-flex justify-content-center p-5 m-5">Answer random questions!!</h3>
+<form class="mt-5 d-flex justify-content-center align-items-center">
+    <div class="container">
+        
+        <div class="container pl-4 pr-4">
+            <div class="container mt-5 d-flex justify-content-center align-items-center input-group input-group-lg">
+                <input id="questionDisplay" class="form-control" type="text" value="Question" aria-label="Disabled input example" disabled readonly style="text-align: center;">
+                <button id="nextBtn" type="button" class="btn btn-xl btn-primary ml-2 h- w-10">Next</button>
+            </div>
+            <div class="container d-flex justify-content-center align-items-center">
+                <button id="optionA" type="button" class="btn btn-xl btn-outline-secondary m-3 mt-5 w-25">Option A</button>
+                <button id="optionB" type="button" class="btn btn-xl btn-outline-secondary m-3 mt-5 w-25">Option B</button>
+                <button id="optionC" type="button" class="btn btn-xl btn-outline-secondary m-3 mt-5 w-25">Option C</button>
+                <button id="optionD" type="button" class="btn btn-xl btn-outline-secondary m-3 mt-5 w-25">Option D</button>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+
+    var questionDisplay = document.getElementById("questionDisplay");
+    var nextBtn = document.getElementById("nextBtn");
+    var btnOptionA = document.getElementById("optionA");
+    var btnOptionB = document.getElementById("optionB");
+    var btnOptionC = document.getElementById("optionC");
+    var btnOptionD = document.getElementById("optionD");
+
+    resetColors();
+    callQuizApi();
+
+    nextBtn.onclick = () => {
+        resetColors();
+        callQuizApi();
+    }
+
+    function callQuizApi() {
+        
+        const call = async () => {
+
+            console.log("clicked");
+            const req = await fetch('http://localhost:8080/api/quiz', {
+                method: 'GET'
+            });
+
+            const json = req.json();
+            return json;
+        }
+
+        call().then(data => {
+
+            questionDisplay.value = data.Question;
+            btnOptionA.innerHTML  = data.OptionA;
+            btnOptionB.innerHTML  = data.OptionB;
+            btnOptionC.innerHTML  = data.OptionC;
+            btnOptionD.innerHTML  = data.OptionD;
+
+            btnOptionA.onclick = () => {
+                changeColor(btnOptionA, (btnOptionA.innerHTML !== data.Answer ? 'red' : 'green'), 'white');
+            }
+
+            btnOptionB.onclick = () => {
+                changeColor(btnOptionB, (btnOptionB.innerHTML !== data.Answer ? 'red' : 'green'), 'white');
+            }
+
+            btnOptionC.onclick = () => {
+                changeColor(btnOptionC, (btnOptionC.innerHTML !== data.Answer ? 'red' : 'green'), 'white');
+            }
+
+            btnOptionD.onclick = () => {
+                changeColor(btnOptionD, (btnOptionD.innerHTML !== data.Answer ? 'red' : 'green'), 'white');
+            }
+
+        }).catch(err => {
+            urlDisplayBox.value = err; 
+        });
+    }
+
+    function changeColor(btn, bgColor, textColor) {
+
+        btn.style.background = bgColor;
+        btn.style.color = textColor;
+    }
+
+    function resetColors() {
+        
+        btnOptionA.style.background = '';
+        btnOptionA.style.color = 'white';
+
+        btnOptionB.style.background = '';
+        btnOptionB.style.color = 'white';
+
+        btnOptionC.style.background = '';
+        btnOptionC.style.color = 'white';
+
+        btnOptionD.style.background = '';
+        btnOptionD.style.color = 'white';
+    }
+
+</script>
+</body>
+</html>
