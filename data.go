@@ -1,5 +1,27 @@
 package main
 
+type Question struct {
+	Id       int
+	Question string
+	OptionA  string
+	OptionB  string
+	OptionC  string
+	OptionD  string
+	Answer   string
+}
+
+type QuizResponse struct {
+	Id       int
+	Question string
+	OptionA  string
+	OptionB  string
+	OptionC  string
+	OptionD  string
+	Answer   string
+	ErrorMsg string
+	Status   int64
+}
+
 var questions = [][]string{
 	{"How many Infinity Stones are there?", "3", "5", "6", "10", "6"},
 	{"What is the only food that cannot go bad?", "Dark chocolate", "Peanut butter", "Canned tuna", "Honey", "Honey"},

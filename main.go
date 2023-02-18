@@ -13,28 +13,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type Question struct {
-	Id       int
-	Question string
-	OptionA  string
-	OptionB  string
-	OptionC  string
-	OptionD  string
-	Answer   string
-}
-
-type QuizResponse struct {
-	Id       int
-	Question string
-	OptionA  string
-	OptionB  string
-	OptionC  string
-	OptionD  string
-	Answer   string
-	ErrorMsg string
-	Status   int64
-}
-
 func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
